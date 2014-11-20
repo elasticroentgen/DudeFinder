@@ -6,24 +6,37 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 
-<div class="btn-group" role="group" aria-label="..." style="margin-bottom:10px;">
-    <button type="button" class="btn btn-default" onclick="createParty()">Create Party</button>
-    <button type="button" class="btn btn-default" onclick="findParty()">Find your dudes!</button>
-    <button type="button" class="btn btn-default" onclick="locate()">Locate Me</button>
+<div class="btn-group" role="toolbar" aria-label="..." style="margin-bottom:10px; margin-top:5px;">
+    <button type="button" class="btn btn-info" onclick="showCreateParty()">Create Party</button>
+    <button type="button" class="btn btn-info" onclick="findParty()">Find your dudes!</button>
+    <button type="button" class="btn btn-primary" onclick="locate()">Locate Me</button>
 </div>
 
 <div id="locateError" style="display:none;" class="alert alert-danger" role="alert">Sorry. Your internet lookat device dont support geolocation.</div>
 
+<div id="createParty" class="top-fixed">
+    Please tap/click the location for a new party
+</div>
+
+<div id="confirmParty" class="top-fixed">
+    <div>Create party at this location?</div>
+    <div>
+        <button type="button" class="btn btn-warning" onclick="cancelParty()">Cancel</button>
+        <button type="button" class="btn btn-success" onclick="createParty()">Create</button>
+    </div>
+</div>
+
     <div id="map" style="height:500px;"></div>
 
     @section js {
+        <script src="~/Scripts/dudefinder.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
                 window.map = L.map('map').setView([51.505, -0.09], 13);
 
                 var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
                 var osmAttrib = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
-                var osm = new L.TileLayer(osmUrl, { minZoom: 8, maxZoom: 12, attribution: osmAttrib });
+                var osm = new L.TileLayer(osmUrl, { minZoom: 5, maxZoom: 20, attribution: osmAttrib });
 
                 // start the map in South-East England
                 window.map.setView(new L.LatLng(51.3, 0.7), 9);
@@ -31,15 +44,7 @@
             });
 
 
-            function locate() {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                        window.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 9);
-                    }, function () { $("#locateError").show(); });
-                } else {
-                    $("#locateError").show();
-                }
-            }
+            
 
         </script>
     }
