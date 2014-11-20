@@ -34,7 +34,7 @@
             function locate() {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(function (position) {
-                        window.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitud), 9);
+                        window.map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 9);
                     }, function () { $("#locateError").show(); });
                 } else {
                     $("#locateError").show();
