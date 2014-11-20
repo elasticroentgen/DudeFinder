@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Tracking";
+}
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+<h2>Tracking your Party</h2>
+
+<div id="map" style="height:500px;"></div>
+
+@section js {
+    <script src="~/Scripts/dudefinder.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.map = L.map('map');
+
+            var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            var osmAttrib = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+            var osm = new L.TileLayer(osmUrl, { minZoom: 5, maxZoom: 20, attribution: osmAttrib });
+            window.map.addLayer(osm);
+
+            window.map.setView([@ViewBag.Lat, @ViewBag.Lng], 17);
+
+            var geopos = new L.LatLng(@ViewBag.Lat, @ViewBag.Lng);
+
+            createCircle = L.circle(geopos, 20, {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5
+            }).addTo(window.map);
+
+        });
+</script>
+}
