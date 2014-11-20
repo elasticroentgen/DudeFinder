@@ -4,9 +4,9 @@
 
             var geopos = new L.LatLng(position.coords.latitude, position.coords.longitude);
 
-            window.map.setView(geopos, 15);
-            var marker = L.marker(geopos).addTo(map);
-            marker.bindPopup("You're here!").openPopup();
+            window.map.setView(geopos, 17);
+            window.ownMarker = L.marker(geopos).addTo(map);
+            window.geoOwn = geopos;
         }, function () { $("#locateError").show(); });
     } else {
         $("#locateError").show();

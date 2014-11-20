@@ -22,14 +22,32 @@
 
             window.map.setView([@ViewBag.Lat, @ViewBag.Lng], 17);
 
-            var geopos = new L.LatLng(@ViewBag.Lat, @ViewBag.Lng);
+            var geotgt = new L.LatLng(@ViewBag.Lat, @ViewBag.Lng);
 
-            createCircle = L.circle(geopos, 20, {
+            //draw party target
+            circle = L.circle(geotgt, 20, {
                 color: 'red',
                 fillColor: '#f03',
                 fillOpacity: 0.5
             }).addTo(window.map);
 
+            //draw own marker
+            locate();
+            
+            window.geoTgt = geotgt;
+
+            setTimeout(function () {
+                //Zoom on target
+                var bounds = L.latLngBounds(window.geoOwn, window.geoTgt);
+                window.map.fitBounds(bounds);
+                setTimeout(function () {window.map.zoomOut(1);},500);
+            },2000);
+            
+
+
         });
+
+
+
 </script>
 }
