@@ -3,7 +3,7 @@
     ViewBag.Title = "Create Party";
 }
 
-<b>Party created</b><br />
+<h3>Party created</h3>
 Share this with your dudes!
 
 <div>
@@ -11,11 +11,10 @@ Share this with your dudes!
     <b>Lng:</b>@ViewBag.Lng<br />
     <i>@ViewBag.PartyURL</i>
 </div>
-
-<a href="whatsapp://send" data-text="We want to meet here:" data-href="@ViewBag.PartyUrl">Send in WhatsApp</a>
-
+<br />
+<a href="whatsapp://send?text=We meet us here: @Url.Encode(ViewBag.PartyURL)">Send in WhatsApp</a>
+<br />
 <div id="qrcode">
-
 </div>
 
 @section js {

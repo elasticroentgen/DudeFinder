@@ -59,9 +59,11 @@ namespace DudeFinder.Controllers
             
             string partyid = MD5Gen.ConvertStringtoMD5(Guid.NewGuid().ToString());
             ViewBag.PartyID = partyid;
-            ViewBag.PartyUrl =  VirtualPathUtility.ToAbsolute(Url.Action("Join", new { id = partyid }));
+            ViewBag.PartyUrl =  Url.Action("Join", "Party",new { id = partyid },"http");
             ViewBag.Lat = lat;
             ViewBag.Lng = lng;
+
+            
 
             using(MySqlConnection sqlconn = new MySqlConnection(ConfigurationManager.ConnectionStrings["AzureDB"].ConnectionString))
             {
