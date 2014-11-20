@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Create Party";
+}
+
+<b>Party created</b><br />
+Share this with your dudes!
+
+<div>
+    <b>Lat:</b>@ViewBag.Lat<br />
+    <b>Lng:</b>@ViewBag.Lng<br />
+</div>
+
+<a href="whatsapp://send" data-text="We want to meet here:" data-href="@ViewBag.PartyUrl">Send in WhatsApp</a>
+
+<div id="qrcode">
+
+</div>
+
+@section js {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var qrcode = new QRCode("qrcode", {
+                text: "@ViewBag.PartyUrl",
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        });
+        
+    </script>
+}

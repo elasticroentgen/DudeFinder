@@ -30,6 +30,8 @@ function showCreateParty() {
 
         window.map.addLayer(window.testLayer);
 
+
+
         $("#createParty").data("position", e.latlng);
         $("#createParty").hide();
         $("#confirmParty").show();
@@ -37,5 +39,9 @@ function showCreateParty() {
 }
 
 function cancelParty() {
-    $("#createParty").hide();
+    $("#confirmParty").hide();
+    if (window.testLayer) {
+        window.testLayer.removeLayer(createCircle);
+    }
 }
+

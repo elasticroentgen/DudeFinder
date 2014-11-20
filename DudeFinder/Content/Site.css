@@ -17,16 +17,23 @@ textarea {
 }
 
 .top-fixed {
-    border-top: 1px solid #16558b;
-    left: 0;
+    font-size: 12px;
+    border-radius: 0 0 10px 10px;
+    margin: 0 auto;
+    border: 1px solid #16558b;
+    left: 10%;
     z-index: 10000;
     position: fixed;
     top: 0;
-    width: 100%;
-    height: 80px;
-    background-color: #eee;
+    width: 80%;
+    background-color: white;
     border-bottom: 4px solid #16558b;
     display: none;
     padding: 10px;
     font-weight: bold;
+    box-shadow: 10px #eee;
+    box-shadow: 5px 5px 50px #888888;
+    opacity: 0.9;
+    text-align: center;
+    display:none;
 }

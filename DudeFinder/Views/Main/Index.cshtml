@@ -43,7 +43,10 @@
                 window.map.addLayer(osm);
             });
 
-
+            function createParty() {
+                var geodata = $("#createParty").data("position");
+                window.location.href = "@Url.Action("Create")" + "?lat=" + geodata.lat + "&lng=" + geodata.lng;
+            }
             
 
         </script>

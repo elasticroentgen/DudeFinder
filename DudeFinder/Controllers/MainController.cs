@@ -13,5 +13,13 @@ namespace DudeFinder.Controllers
         {
             return View();
         }
+
+        public ActionResult Create(double lat,double lng)
+        {
+            ViewBag.PartyUrl = Url.Action("Index");
+            ViewBag.Lat = lat;
+            ViewBag.Lng = lng;
+            return View();
+        }
     }
 }
