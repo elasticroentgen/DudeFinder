@@ -22,6 +22,7 @@
             srhub = $.connection.locationHub;
             window.others = {};
             srhub.client.UpdateMember = function (id,lat,lng) {
+                console.log("Dude send new location!",id,lat,lng);
                 if(id in window.others) {
                     window.map.removeLayer(window.others[id]);
                 }
@@ -34,6 +35,7 @@
                 srhub.server.joinParty('@ViewBag.PartyID');
                 setInterval(function () {
                     locate();
+                    console.log("Sent our current location:",window.geoOwn);
                     srhub.server.updateLocation('@ViewBag.PartyID',window.geoOwn.lat,window.geoOwn.lng);
                 },10000);
             });
