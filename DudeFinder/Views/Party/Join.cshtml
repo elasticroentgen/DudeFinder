@@ -22,7 +22,9 @@
             srhub = $.connection.locationHub;
             window.others = {};
             srhub.client.UpdateMember = function (id,lat,lng) {
-                window.map.removeLayer(window.others[id]);
+                if(id in window.others) {
+                    window.map.removeLayer(window.others[id]);
+                }
                 var geopos = new L.LatLng(lat, lng);
                 window.others[id] = new L.marker(geopos);
                 window.map.addLayer(window.others[id]);
