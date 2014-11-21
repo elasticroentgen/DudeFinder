@@ -1,8 +1,11 @@
 ﻿using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -63,9 +66,14 @@ namespace DudeFinder.Controllers
             ViewBag.Lat = lat;
             ViewBag.Lng = lng;
 
-            
+            WebClient wc = new WebClient();
+            string add_url = String.Format("http://nominatim.openstreetmap.org/reverse?format=json&lat={0}&lon={1}",lat,lng);
+            string add_json = wc.DownloadString(new Uri(add_url));
 
-            using(MySqlConnection sqlconn = new MySqlConnection(ConfigurationManager.ConnectionStrings["AzureDB"].ConnectionString))
+            Dictionary<string, object> address = JsonConvert.DeserializeObject<Dictionary<string, object>>(add_json);
+            ViewBag.Address = (string)address["display_name"];
+
+            /*using(MySqlConnection sqlconn = new MySqlConnection(ConfigurationManager.ConnectionStrings["AzureDB"].ConnectionString))
             {
                 sqlconn.Open();
                 string sql_command = "INSERT INTO parties (partyid,lat,lng) VALUES (@id,@lat,@lng)";
@@ -76,7 +84,9 @@ namespace DudeFinder.Controllers
                 cmd.ExecuteNonQuery();
                 sqlconn.Close();
             }
+            */
 
+            
             return View();
         }
     }

@@ -1,23 +1,48 @@
 ﻿
 @{
-    ViewBag.Title = "Create Party";
+    ViewBag.Title = "Party Created!";
 }
 
-<h3>Party created</h3>
-Share this with your dudes!
+<div class="panel panel-success">
+    <div class="panel-heading">Your Location</div>
+    <div class="panel-body">
+        <label>Address:</label><span>@ViewBag.Address</span><br />
+        <label>Latitude:</label><span>@ViewBag.Lat</span><br />
+        <label>Longitude:</label><span>@ViewBag.Lng</span><br />
+    </div>
+</div>
 
+<div class="panel panel-primary">
+    <div class="panel-heading">Share it!</div>
+    <div class="panel-body">
+        <label>By URL:</label><br />
+        <a href="@ViewBag.PartyURL">@ViewBag.PartyURL</a><br />
+        <br />
+
+        <label>Mail it:</label><br />
+        <a href="mailto:?subject=DudeFinder%20Party&body=Hi!%0A%0AWe want to meet at the following position:%0A @Url.Encode(ViewBag.PartyURL)">Send with your mail client</a><br />
+
+        <label>Go Social:</label><br />
+        <a href="whatsapp://send?text=We meet us here: @Url.Encode(ViewBag.PartyURL)">
+            <img src="@Url.Content("~/Content/wa.png")" alt="WhatsApp" style="height: 35px;margin-bottom: 10px;" />
+        </a>
+        <br />
+        <g:plus action="share" href="@ViewBag.PartyUrl" height="24"></g:plus>
+        <br />
+
+        <label>Let others scan this:</label>
+        <div id="qrcode">
+        </div>
+
+    </div>
+</div>
 <div>
-    <b>Lat:</b>@ViewBag.Lat<br />
-    <b>Lng:</b>@ViewBag.Lng<br />
-    <i>@ViewBag.PartyURL</i>
+    <button class="btn btn-success">Start Tracking</button>
 </div>
-<br />
-<a href="whatsapp://send?text=We meet us here: @Url.Encode(ViewBag.PartyURL)">Send in WhatsApp</a>
-<br />
-<div id="qrcode">
-</div>
+
 
 @section js {
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script type="text/javascript">
         $(document).ready(function () {
             var qrcode = new QRCode("qrcode", {
@@ -27,6 +52,6 @@ Share this with your dudes!
                 correctLevel: QRCode.CorrectLevel.H
             });
         });
-        
-    </script>
+
+</script>
 }
