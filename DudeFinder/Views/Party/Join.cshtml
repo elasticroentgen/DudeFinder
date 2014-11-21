@@ -5,14 +5,38 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 
+
+
 <h2>Tracking your Party</h2>
 
 <div id="map" style="height:500px;"></div>
 
 @section js {
     <script src="~/Scripts/dudefinder.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
+
+            srhub = $.connection.locationHub;
+            window.others = {};
+            srhub.client.UpdateMember = function (id,lat,lng) {
+                window.map.removeLayer(window.others[id]);
+                var geopos = new L.LatLng(lat, lng);
+                window.others[id] = new L.marker(geopos);
+                window.map.addLayer(window.others[id]);
+            };
+
+            $.connection.hub.start().done(function () {
+                srhub.server.joinParty('@ViewBag.PartyID');
+                setInterval(function () {
+                    locate();
+                    srhub.server.updateLocation('@ViewBag.PartyID',window.geoOwn.lat,window.geoOwn.lng);
+                },10000);
+            });
+
+
             window.map = L.map('map');
 
             var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
