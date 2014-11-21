@@ -4,8 +4,15 @@
 
             var geopos = new L.LatLng(position.coords.latitude, position.coords.longitude);
 
-            window.map.setView(geopos, 17);
-            window.ownMarker = L.marker(geopos).addTo(map);
+            if (typeof window.ownMarker === 'undefined') {
+                window.map.setView(geopos, 17);
+            } else {
+                window.map.removeLayer(window.ownMarker);
+            }
+
+            window.ownMarker = L.marker(geopos);
+            window.map.addLayer(window.ownMarker);
+
             window.geoOwn = geopos;
         }, function () { $("#locateError").show(); });
     } else {
