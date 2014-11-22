@@ -7,7 +7,8 @@
 
 
 
-<h2>Tracking your Party</h2>
+<h3>Tracking your Party</h3>
+<button class="btn btn-success" style="float:right;"></button>
 
 <div id="map" style="height:500px;"></div>
 
@@ -24,6 +25,7 @@
             srhub.client.UpdateMember = function (id,lat,lng) {
                 console.log("Dude send new location!",id,lat,lng);
                 if(id in window.others) {
+
                     window.map.removeLayer(window.others[id]);
                 }
                 var geopos = new L.LatLng(lat, lng);

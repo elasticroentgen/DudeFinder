@@ -4,9 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DudeFinder | @ViewBag.Title</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <link href="~/Content/df.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -20,8 +18,7 @@
                 @Html.ActionLink("DudeFinder - " + (string)ViewBag.Title, "Index", "Main", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
+                <ul class="nav navbar-nav"></ul>
             </div>
         </div>
     </div>
@@ -34,10 +31,8 @@
         </footer>
     </div>
 
-    <script src="~/Scripts/jquery-2.1.1.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/qrcode.min.js"></script>
-    <script src="~/Scripts/dudefinder.js"></script>
+    <script src="~/Scripts/df.min.js"></script>
+    
     @RenderSection("js")
 </body>
 </html>
