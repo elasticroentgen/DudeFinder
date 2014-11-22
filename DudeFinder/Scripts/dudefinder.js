@@ -1,4 +1,28 @@
-﻿function locate() {
+﻿function startLocateWatch() {
+    window.map.on("locationfound", function (e) {
+
+        console.log("Location updated!");
+
+        var geopos = e.latlng;
+        if (typeof window.ownMarker === 'undefined') {
+            window.map.setView(geopod, 17);
+        } else {
+            window.map.removeLayer(window.ownMarker);
+        }
+
+        window.ownMarker = L.marker(geopos);
+        window.map.addLayer(window.ownMarker);
+
+        window.geoOwn = geopos;
+
+    });
+
+    window.map.locate({ watch: true, enableHighAccuracy: true });
+
+}
+
+function locate() {
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
 

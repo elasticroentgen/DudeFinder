@@ -13,7 +13,6 @@
   <!--The order of the <file> elements determines the order of the files in the bundle.-->
   <files>
     <file>/Content/bootstrap.css</file>
-    <file>/Content/leaflet.css</file>
     <file>/Content/Site.css</file>
   </files>
 </bundle>

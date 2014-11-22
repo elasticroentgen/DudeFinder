@@ -2,8 +2,7 @@
     ViewBag.Title = "Tracking";
 }
 
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
 
 
 
@@ -13,12 +12,23 @@
 <div id="map" style="height:500px;"></div>
 
 @section js {
-    <script src="~/Scripts/dudefinder.js"></script>
-    <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
 
     <script type="text/javascript">
-        $(document).ready(function () {
+    $(document).ready(function () {
+
+        //create icon for others
+        redIcon = L.icon({
+            iconUrl: '@Url.Content("~/Content/images/marker-icon-red.png")',
+                shadowUrl: '@Url.Content("~/Content/images/marker-shadow.png")',
+
+                iconSize:     [25, 41], // size of the icon
+                shadowSize:   [41, 41], // size of the shadow
+                iconAnchor:   [13, 41], // point of the icon which will correspond to marker's location
+                shadowAnchor: [12, 41],  // the same for the shadow
+                popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+            });
+
 
             srhub = $.connection.locationHub;
             window.others = {};
@@ -29,53 +39,55 @@
                     window.map.removeLayer(window.others[id]);
                 }
                 var geopos = new L.LatLng(lat, lng);
-                window.others[id] = new L.marker(geopos);
+                window.others[id] = new L.marker(geopos,{icon: redIcon});
                 window.map.addLayer(window.others[id]);
             };
 
             $.connection.hub.start().done(function () {
                 srhub.server.joinParty('@ViewBag.PartyID');
-                setInterval(function () {
-                    locate();
-                    console.log("Sent our current location:",window.geoOwn);
-                    srhub.server.updateLocation('@ViewBag.PartyID',window.geoOwn.lat,window.geoOwn.lng);
-                },10000);
-            });
 
+            startLocateWatch();
 
-            window.map = L.map('map');
-
-            var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-            var osmAttrib = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
-            var osm = new L.TileLayer(osmUrl, { minZoom: 5, maxZoom: 20, attribution: osmAttrib });
-            window.map.addLayer(osm);
-
-            window.map.setView([@ViewBag.Lat, @ViewBag.Lng], 17);
-
-            var geotgt = new L.LatLng(@ViewBag.Lat, @ViewBag.Lng);
-
-            //draw party target
-            circle = L.circle(geotgt, 20, {
-                color: 'red',
-                fillColor: '#f03',
-                fillOpacity: 0.5
-            }).addTo(window.map);
-
-            //draw own marker
-            locate();
-            
-            window.geoTgt = geotgt;
-
-            setTimeout(function () {
-                //Zoom on target
-                var bounds = L.latLngBounds(window.geoOwn, window.geoTgt);
-                window.map.fitBounds(bounds);
-                setTimeout(function () {window.map.zoomOut(1);},500);
-            },2000);
-            
-
-
+            setInterval(function () {
+                console.log("Sent our current location:",window.geoOwn);
+                srhub.server.updateLocation('@ViewBag.PartyID',window.geoOwn.lat,window.geoOwn.lng);
+            },10000);
         });
+
+
+        window.map = L.map('map');
+
+        var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        var osmAttrib = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+        var osm = new L.TileLayer(osmUrl, { minZoom: 5, maxZoom: 20, attribution: osmAttrib });
+        window.map.addLayer(osm);
+
+        window.map.setView([@ViewBag.Lat, @ViewBag.Lng], 17);
+
+        var geotgt = new L.LatLng(@ViewBag.Lat, @ViewBag.Lng);
+
+        //draw party target
+        circle = L.circle(geotgt, 20, {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5
+        }).addTo(window.map);
+
+        //draw own marker
+        locate();
+
+        window.geoTgt = geotgt;
+
+        setTimeout(function () {
+            //Zoom on target
+            var bounds = L.latLngBounds(window.geoOwn, window.geoTgt);
+            window.map.fitBounds(bounds);
+            setTimeout(function () {window.map.zoomOut(1);},500);
+        },2000);
+
+
+
+    });
 
 
 

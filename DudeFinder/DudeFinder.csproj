@@ -159,6 +159,19 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\df.css">
+      <DependentUpon>df.css.bundle</DependentUpon>
+    </Content>
+    <Content Include="Content\df.min.css">
+      <DependentUpon>df.css</DependentUpon>
+    </Content>
+    <Content Include="Content\images\layers-2x.png" />
+    <Content Include="Content\images\layers.png" />
+    <Content Include="Content\images\marker-icon-2x.png" />
+    <Content Include="Content\images\marker-icon-red.png" />
+    <Content Include="Content\images\marker-icon.png" />
+    <Content Include="Content\images\marker-shadow.png" />
+    <Content Include="Content\leaflet.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\wa.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -168,14 +181,23 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Scripts\df.js">
+      <DependentUpon>df.js.bundle</DependentUpon>
+    </Content>
+    <Content Include="Scripts\df.js.bundle" />
+    <Content Include="Scripts\df.min.js.map">
+      <DependentUpon>df.min.js</DependentUpon>
+    </Content>
+    <Content Include="Content\df.css.bundle" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\df.min.js">
+      <DependentUpon>df.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\dudefinder.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
-    <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery.signalR-2.1.2.js" />
-    <Content Include="Scripts\jquery.signalR-2.1.2.min.js" />
+    <Content Include="Scripts\leaflet.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\qrcode.min.js" />
