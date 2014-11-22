@@ -11,8 +11,8 @@
   <!--The order of the <file> elements determines the order of the files in the bundle.-->
   <files>
     <file>/Scripts/modernizr-2.8.3.js</file>
-    <file>/Scripts/bootstrap.js</file>
     <file>/Scripts/jquery-2.1.1.js</file>
+    <file>/Scripts/bootstrap.js</file>
     <file>/Scripts/jquery.signalR-2.1.2.js</file>
     <file>/Scripts/leaflet.js</file>
     <file>/Scripts/qrcode.min.js</file>
