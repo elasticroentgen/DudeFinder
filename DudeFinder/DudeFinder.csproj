@@ -216,6 +216,7 @@
     <Content Include="Views\Party\Create.cshtml" />
     <Content Include="Views\Party\Join.cshtml" />
     <Content Include="Views\Party\NotFound.cshtml" />
+    <Content Include="Views\Party\Share.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

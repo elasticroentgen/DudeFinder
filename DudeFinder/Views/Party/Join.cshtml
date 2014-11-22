@@ -5,9 +5,9 @@
 
 
 
-
+<button class="btn btn-success" style="float:right;margin-top:18px;" onclick="shareParty()">Share Party</button>
 <h3>Tracking your Party</h3>
-<button class="btn btn-success" style="float:right;"></button>
+
 
 <div id="map" style="height:500px;"></div>
 
@@ -15,36 +15,40 @@
     <script src="~/signalr/hubs"></script>
 
     <script type="text/javascript">
+        function shareParty() {
+            window.location.href = '@ViewBag.ShareUrl';
+        }
+
     $(document).ready(function () {
 
         //create icon for others
         redIcon = L.icon({
             iconUrl: '@Url.Content("~/Content/images/marker-icon-red.png")',
-                shadowUrl: '@Url.Content("~/Content/images/marker-shadow.png")',
+            shadowUrl: '@Url.Content("~/Content/images/marker-shadow.png")',
 
-                iconSize:     [25, 41], // size of the icon
-                shadowSize:   [41, 41], // size of the shadow
-                iconAnchor:   [13, 41], // point of the icon which will correspond to marker's location
-                shadowAnchor: [12, 41],  // the same for the shadow
-                popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-            });
+            iconSize:     [25, 41], // size of the icon
+            shadowSize:   [41, 41], // size of the shadow
+            iconAnchor:   [13, 41], // point of the icon which will correspond to marker's location
+            shadowAnchor: [12, 41],  // the same for the shadow
+            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        });
 
 
-            srhub = $.connection.locationHub;
-            window.others = {};
-            srhub.client.UpdateMember = function (id,lat,lng) {
-                console.log("Dude send new location!",id,lat,lng);
-                if(id in window.others) {
+        srhub = $.connection.locationHub;
+        window.others = {};
+        srhub.client.UpdateMember = function (id,lat,lng) {
+            console.log("Dude send new location!",id,lat,lng);
+            if(id in window.others) {
 
-                    window.map.removeLayer(window.others[id]);
-                }
-                var geopos = new L.LatLng(lat, lng);
-                window.others[id] = new L.marker(geopos,{icon: redIcon});
-                window.map.addLayer(window.others[id]);
-            };
+                window.map.removeLayer(window.others[id]);
+            }
+            var geopos = new L.LatLng(lat, lng);
+            window.others[id] = new L.marker(geopos,{icon: redIcon});
+            window.map.addLayer(window.others[id]);
+        };
 
-            $.connection.hub.start().done(function () {
-                srhub.server.joinParty('@ViewBag.PartyID');
+        $.connection.hub.start().done(function () {
+            srhub.server.joinParty('@ViewBag.PartyID');
 
             startLocateWatch();
 

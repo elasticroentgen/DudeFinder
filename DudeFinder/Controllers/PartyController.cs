@@ -39,6 +39,7 @@ namespace DudeFinder.Controllers
                 sqlconn.Close();
             }
 
+            ViewBag.ShareUrl = Url.Action("Share", "Party", new { id = id }, "http");
             ViewBag.PartyID = id;
             ViewBag.Lat = lat;
             ViewBag.Lng = lng;
@@ -51,6 +52,38 @@ namespace DudeFinder.Controllers
             return View();
         }
 
+        public ActionResult Share(string id)
+        {
+            double lat = 0.0;
+            double lng = 0.0;
+
+            using (MySqlConnection sqlconn = new MySqlConnection(ConfigurationManager.ConnectionStrings["AzureDB"].ConnectionString))
+            {
+                sqlconn.Open();
+                string sql_command = "SELECT lat,lng FROM parties WHERE partyid = @id";
+                MySqlCommand cmd = new MySqlCommand(sql_command, sqlconn);
+                cmd.Parameters.AddWithValue("@id", id);
+                var mr = cmd.ExecuteReader();
+                if (!mr.Read())
+                    return RedirectToAction("NotFound");
+                else
+                {
+                    lat = mr.GetDouble(0);
+                    lng = mr.GetDouble(1);
+                    mr.Close();
+                }
+                sqlconn.Close();
+            }
+
+            ViewBag.PartyUrl = Url.Action("Join", "Party", new { id = id }, "http");
+            ViewBag.PartyID = id;
+            ViewBag.Lat = lat;
+            ViewBag.Lng = lng;
+            ViewBag.Address = GetAddress(lat, lng);
+
+            return View();
+        }
+
         public ActionResult Create(double lat, double lng)
         {
             string partyid = MD5Gen.ConvertStringtoMD5(Guid.NewGuid().ToString());
@@ -58,13 +91,7 @@ namespace DudeFinder.Controllers
             ViewBag.PartyUrl = Url.Action("Join", "Party", new { id = partyid }, "http");
             ViewBag.Lat = lat;
             ViewBag.Lng = lng;
-
-            WebClient wc = new WebClient();
-            string add_url = String.Format("http://nominatim.openstreetmap.org/reverse?format=json&lat={0}&lon={1}", lat, lng);
-            string add_json = wc.DownloadString(new Uri(add_url));
-
-            Dictionary<string, object> address = JsonConvert.DeserializeObject<Dictionary<string, object>>(add_json);
-            ViewBag.Address = (string)address["display_name"];
+            ViewBag.Address = GetAddress(lat, lng);
 
             using (MySqlConnection sqlconn = new MySqlConnection(ConfigurationManager.ConnectionStrings["AzureDB"].ConnectionString))
             {
@@ -79,6 +106,16 @@ namespace DudeFinder.Controllers
             }
 
             return View();
+        }
+
+        private string GetAddress(double lat, double lng)
+        {
+            WebClient wc = new WebClient();
+            string add_url = String.Format("http://nominatim.openstreetmap.org/reverse?format=json&lat={0}&lon={1}", lat, lng);
+            string add_json = wc.DownloadString(new Uri(add_url));
+
+            Dictionary<string, object> address = JsonConvert.DeserializeObject<Dictionary<string, object>>(add_json);
+            return  (string)address["display_name"];
         }
     }
 }
